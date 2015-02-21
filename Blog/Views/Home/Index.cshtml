@@ -1,0 +1,120 @@
+﻿@using Blog.Models
+@model IEnumerable<Blog.Models.MyBlog>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Index</h2>
+
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BloggerImg)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VisitorCount)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BlogTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BlogDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BloggerImg)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VisitorCount)
+                </td>
+
+            </tr>
+        }
+
+    </table>*@
+<br />
+<table>
+    <div class="col-lg-12">
+        <div class="row">
+            @using (Html.BeginForm())
+            {
+                <p>
+                    <div class="col-lg-7">
+                       <img src="~/Image/logo.png" />
+                    </div>
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control input-lg col-lg" id="SearchString" name="SearchString" placeholder="Search">
+                        </div>
+                        <div class="col-lg-2">
+                            <button type="submit" class="btn btn-default btn-lg">Search</button>
+                        </div>
+</p>
+            }
+        </div>
+    </div>
+</table>
+            <h2>&nbsp;  Most Recently Published</h2>
+            @foreach (var item in Model)
+            {
+                <table>
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-3" style="margin-top: 25px">
+                                <img src="~/Image/@item.BloggerImg" class="img-thumbnail" width="200px" height="200px" />
+                            </div>
+                            <div class="col-lg-9">
+                                <h2>@Html.ActionLink(item.BlogTitle, "DetailView", new { id = item.BlogId })</h2>
+                                <p>
+                                    <b>Author By:</b> @item.UserId <b> Publish Date:  </b> @item.Date <b> Total View: </b> @item.VisitorCount
+                                </p>
+                                <p>
+                                    @item.BlogDescription
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </table>
+            }
+            <h2>Most Viewed</h2>
+
+            @foreach (var item in (List<MyBlog>)ViewBag.TopPost)
+            {
+                <table>
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-3" style="margin-top: 25px">
+                                <img src="~/Image/@item.BloggerImg" class="img-thumbnail" width="200px" height="200px" />
+                            </div>
+                            <div class="col-lg-9">
+                                <h2>@Html.ActionLink(item.BlogTitle, "DetailView", new { id = item.BlogId })</h2>
+                                <p>
+                                    <b>Author By:</b> @item.UserId <b> Publish Date:  </b> @item.Date <b> Total View: </b> @item.VisitorCount
+                                </p>
+                                <p>
+                                    @item.BlogDescription 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </table>
+            }

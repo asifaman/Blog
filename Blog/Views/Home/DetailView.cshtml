@@ -1,0 +1,108 @@
+﻿@model Blog.Models.MyBlog
+
+@{
+    ViewBag.Title = "DetailView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+<body onload="UserLoad();">
+    <table>
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-3" style="margin-top: 25px">
+                    <img src="~/Image/@Html.DisplayFor(model => model.BloggerImg)" class="img-thumbnail" width="500px" height="500px" />
+                </div>
+                <div class="col-lg-9">
+                    <h1>@Html.DisplayFor(model => model.BlogTitle)</h1>
+                    <p>
+                        <b>Author By: </b>@Html.DisplayFor(model => model.UserId) <b> Publish Date: </b>@Html.DisplayFor(model => model.Date) <b> Total View: </b> @Html.DisplayFor(model => model.VisitorCount)
+                    </p>
+                    <p>
+                        @Html.DisplayFor(model => model.BlogDescription)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </table>
+
+    <form id="comments" name="comments" method="POST" action="../Comment">
+
+        <table>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12" style="margin-top: 25px">
+                        <div class="form-group">
+                            <label for="comment">Please Login before comment</label><br/>
+                            @Html.ActionLink("New User Registered From Here", "Register", "Account")<br/><br/>
+                            <label for="comment">Comment:</label>
+                            <textarea class="form-control" rows="5" id="comment" name="comment"></textarea><br />
+                            <button type="button" class="btn btn-default lg" id="commentsubmit" name="commentsubmit">Comment</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </table>
+    </form>
+  
+
+    <table class="table" id="infotable">
+        <thead>
+            <tr>
+               
+
+            </tr>
+        </thead>
+        <tbody id="records_table"></tbody>
+
+    </table>
+
+    @section scripts{
+        <script>
+
+    $("#document").ready(function() {
+        $("#commentsubmit").click(function() {
+            var comment = $("#comment").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Comment", "Home")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ comment: comment }),
+                dataType: "json",
+                success: function(data) {
+                    $('#records_table').empty();
+                    var trHTML = '';
+                    $.each(data, function (i, item) {
+                        trHTML += '<tr><td>' + '<img src="/UserImg/user.jpg"/> ' + item.UserId + "<br>" + " Date: " + item.Date + "<br>" + item.UserComment + '</td><td> ';
+                    });
+                    $('#records_table').append(trHTML);
+                }
+            });
+        });
+    });
+
+        </script>
+        <script>
+           
+                function UserLoad() {
+                    $.ajax({
+                        type: "GET",
+                        url: '@Url.Action("Comment", "Home")',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            $('#records_table').empty();
+                            var trHTML = '';
+                            $.each(data, function (i, item) {
+                                trHTML += '<tr><td>' + '<img src="/UserImg/user.jpg"/> ' + item.UserId + "<br>" + " Date: " + item.Date + "<br>" + item.UserComment + '</td><td> ';
+                            });
+                            $('#records_table').append(trHTML);
+                        }
+
+                    });
+                };
+
+        </script>
+    }
+</body>

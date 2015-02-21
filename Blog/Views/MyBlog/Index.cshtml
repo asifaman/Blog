@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Blog.Models.MyBlog>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DashBoard</h2>
+
+<p>
+    @Html.ActionLink("Write New Blog", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BlogTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BlogDescription)
+        </th>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.VisitorCount)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BlogTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BlogDescription)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.VisitorCount)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.BlogId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.BlogId }) |
+            @Html.ActionLink("Delete", "Delete", new {id = item.BlogId}) |
+            @{
+              if (item.Status == "Publish")
+                {
+                @Html.ActionLink("Unpublish", "Unpublish", new { id = item.BlogId })
+                }
+              else
+              {
+                @Html.ActionLink("Publish", "Publish", new { id = item.BlogId })
+              }
+}
+        </td>
+    </tr>
+}
+
+</table>

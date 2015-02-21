@@ -1,0 +1,24 @@
+﻿@using Blog.Models
+@model Register
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Register</h2>
+
+<div>
+    @using (@Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+        <label>User Name</label>
+        @Html.TextBoxFor(m => m.Username, new { @class = "form-control" });
+        <label>Password</label>
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control" });
+       <label>Confirm Password</label>
+       @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" });
+        <br/>
+        <button class="btn btn-primary" type="submit"> Login </button>
+    }
+</div>
